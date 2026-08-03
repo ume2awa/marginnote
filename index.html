@@ -1,59 +1,31 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MarginNote</title>
-  <style>
-    :root { --ink:#17211c; --paper:#fbfaf5; --accent:#4e8b62; --line:#dce2d8; --soft:#edf4ed; }
-    * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; font-family:ui-serif, Georgia, "Hiragino Mincho ProN", serif; color:var(--ink); background:var(--paper); }
-    header { display:flex; justify-content:space-between; align-items:center; padding:22px max(5vw,28px); border-bottom:1px solid var(--line); }
-    .brand { font-size:1.35rem; letter-spacing:.04em; font-weight:700; } .brand span { color:var(--accent); }
-    .status { color:#647068; font-size:.88rem; }
-    main { width:min(1000px,90vw); margin:clamp(32px,7vw,82px) auto; }
-    .eyebrow { color:var(--accent); letter-spacing:.16em; font-size:.75rem; font-weight:700; }
-    h1 { font-size:clamp(2.1rem,5vw,4.2rem); max-width:700px; margin:.3em 0 .18em; line-height:1.15; }
-    .intro { color:#526057; max-width:610px; line-height:1.8; margin-bottom:40px; }
-    .editor { display:grid; grid-template-columns:1fr 260px; border:1px solid var(--line); border-radius:14px; overflow:hidden; background:white; box-shadow:0 16px 50px #233a2610; }
-    .page { padding:32px; min-height:430px; }
-    textarea { resize:none; width:100%; height:280px; border:0; outline:0; color:var(--ink); font:1.04rem/1.9 ui-serif, Georgia, serif; background:transparent; }
-    aside { padding:24px; background:var(--soft); border-left:1px solid var(--line); }
-    aside h2 { font-size:.85rem; letter-spacing:.1em; margin:0 0 15px; } .hint { font: .87rem/1.7 ui-sans-serif, system-ui, sans-serif; color:#506056; }
-    button { border:0; border-radius:7px; padding:11px 15px; background:var(--accent); color:white; cursor:pointer; font-weight:700; } button:hover { background:#3e7350; }
-    .notes { margin-top:18px; display:grid; gap:8px; } .note { background:white; padding:11px; border-radius:7px; font:.88rem/1.5 ui-sans-serif,system-ui,sans-serif; }
-    .actions { display:flex; gap:9px; align-items:center; font-family:ui-sans-serif,system-ui,sans-serif; font-size:.84rem; }
-    @media (max-width:720px) { .editor { grid-template-columns:1fr; } aside { border-left:0; border-top:1px solid var(--line); } }
-  </style>
-</head>
-<body>
-  <header><div class="brand">Margin<span>Note</span></div><div class="status" id="status">ローカルに保存されます</div></header>
-  <main>
-    <div class="eyebrow">THINK IN THE MARGIN</div>
-    <h1>余白から、考えを育てる。</h1>
-    <p class="intro">読書中の断片や、ふと浮かんだアイデアを気軽に書き留めるための、静かなノートです。</p>
-    <section class="editor">
-      <div class="page">
-        <textarea id="editor" aria-label="ノート" placeholder="ここに書き始めてください。&#10;&#10;大切なことは、まず余白に置いてみること。"></textarea>
-        <div class="actions"><button id="save">保存する</button><span id="count">0 文字</span></div>
-      </div>
-      <aside>
-        <h2>余白のヒント</h2>
-        <p class="hint">完璧な文章でなくて大丈夫。問い、引用、次に試したいことを書き残しましょう。</p>
-        <div class="notes">
-          <div class="note">「これはなぜ心に残った？」</div>
-          <div class="note">「別の場面ではどう使える？」</div>
-          <div class="note">「明日、何を一つ試す？」</div>
-        </div>
-      </aside>
-    </section>
-  </main>
-  <script>
-    const editor=document.querySelector('#editor'), count=document.querySelector('#count'), status=document.querySelector('#status');
-    editor.value=localStorage.getItem('marginnote')||'';
-    const update=()=>count.textContent=editor.value.length+' 文字';
-    update(); editor.addEventListener('input',update);
-    document.querySelector('#save').addEventListener('click',()=>{ localStorage.setItem('marginnote',editor.value); status.textContent='保存しました'; setTimeout(()=>status.textContent='ローカルに保存されます',1800); });
-  </script>
-</body>
-</html>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MarginNote — 読書の余白に、思考を残す</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=Noto+Serif+JP:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
+:root{--ink:#20271f;--muted:#6b746b;--paper:#f8f7f1;--panel:#fffefb;--green:#306446;--lime:#cfe97a;--line:#e5e7df;--orange:#f4b66f}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Plus Jakarta Sans","Hiragino Sans",sans-serif}
+button{font:inherit;cursor:pointer;border:0}.app{min-height:100vh;display:grid;grid-template-columns:248px 1fr}
+.sidebar{background:#20392b;color:#edf4e8;padding:25px 17px;display:flex;flex-direction:column;gap:29px}.logo{font-size:21px;font-weight:700;letter-spacing:-.8px;padding:0 9px}.logo b{color:var(--lime)}.workspace{padding:0 9px;font:11px "DM Mono";color:#aab9aa;letter-spacing:.08em}.new{background:var(--lime);color:#173021;border-radius:10px;padding:13px 14px;font-weight:700;text-align:left}.new:hover{filter:brightness(1.04)}.nav{display:grid;gap:5px}.nav button{color:#cbd7cc;background:transparent;text-align:left;border-radius:8px;padding:10px 11px;font-size:13px}.nav button.active,.nav button:hover{background:#365342;color:white}.books-label{font:11px "DM Mono";color:#aab9aa;letter-spacing:.08em;padding:0 9px}.book{color:#d9e4d9;padding:10px 11px;border-left:2px solid transparent;font-size:13px}.book.active{border-color:var(--lime);background:#294934}.book small{display:block;color:#9cb09e;margin-top:4px}.profile{margin-top:auto;border-top:1px solid #4a6251;padding:19px 9px 0;font-size:12px;color:#c5d1c5}
+.main{min-width:0}.top{height:75px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 42px;background:#fbfaf6}.crumb{font-size:13px;color:var(--muted)}.crumb strong{color:var(--ink)}.actions{display:flex;align-items:center;gap:13px}.export{background:#edf0e8;color:#3c4d40;padding:10px 13px;border-radius:8px;font-size:12px;font-weight:600}.avatar{width:31px;height:31px;background:var(--orange);border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700}
+.content{width:min(1120px,calc(100% - 70px));margin:43px auto}.hero{display:flex;justify-content:space-between;align-items:end;margin-bottom:30px}.kicker{font:11px "DM Mono";color:var(--green);letter-spacing:.09em}.hero h1{font-family:"Noto Serif JP",serif;font-size:29px;margin:9px 0 0;letter-spacing:-1.4px}.progress{font-size:12px;color:var(--muted);text-align:right}.bar{width:145px;height:6px;border-radius:4px;background:#e1e5db;margin-top:8px;overflow:hidden}.bar i{display:block;background:var(--green);width:42%;height:100%}
+.reader{display:grid;grid-template-columns:minmax(0,1fr) 315px;gap:26px;align-items:start}.article{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:45px 9%;box-shadow:0 8px 25px #20392b08}.meta{font:11px "DM Mono";color:#869087;margin-bottom:29px}.article h2{font:600 25px/1.55 "Noto Serif JP",serif;margin:0 0 24px}.article p{font:16px/2.15 "Noto Serif JP",serif;margin:0 0 20px;color:#353d34}.highlight{background:linear-gradient(transparent 53%,#e6f2a8 53%);padding:0 2px;cursor:pointer}.quote{border-left:3px solid var(--orange);padding:7px 0 7px 18px;font:500 17px/1.8 "Noto Serif JP",serif;margin:28px 0;color:#314535}
+.margin{position:sticky;top:20px}.margin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px}.margin-head h3{margin:0;font-size:14px}.add{background:var(--green);color:white;width:30px;height:30px;border-radius:8px;font-size:20px}.notes{display:grid;gap:11px}.note{background:#fff;border:1px solid var(--line);border-radius:11px;padding:15px;box-shadow:0 4px 12px #20392b06}.note .tag{font:10px "DM Mono";color:var(--green)}.note p{font:13px/1.65 "Noto Serif JP",serif;margin:8px 0 0}.note .delete{float:right;color:#a0a69f;background:none;font-size:15px;padding:0}.empty{border:1px dashed #cfd6cb;color:#7e897f;border-radius:11px;padding:21px 14px;font-size:12px;text-align:center}
+.modal{position:fixed;inset:0;background:#17251c55;display:none;place-items:center;padding:20px;z-index:5}.modal.show{display:grid}.dialog{background:white;width:min(440px,100%);border-radius:15px;padding:25px;box-shadow:0 18px 50px #17251c55}.dialog h3{margin:0 0 16px}.dialog textarea{width:100%;height:125px;resize:vertical;border:1px solid var(--line);border-radius:9px;padding:12px;font:14px/1.7 "Noto Serif JP",serif}.dialog footer{display:flex;justify-content:flex-end;gap:8px;margin-top:13px}.cancel{background:#eef0eb;padding:10px 13px;border-radius:8px}.save{background:var(--green);color:white;padding:10px 15px;border-radius:8px;font-weight:700}
+@media(max-width:820px){.app{grid-template-columns:1fr}.sidebar{display:none}.top{padding:0 20px}.content{width:calc(100% - 32px);margin:25px auto}.reader{grid-template-columns:1fr}.margin{position:static}.hero h1{font-size:23px}.article{padding:31px 8%}}
+</style></head>
+<body><div class="app">
+<aside class="sidebar"><div class="logo">Margin<b>Note</b></div><button class="new" id="newNote">＋ 新しいノート</button><div><div class="workspace">WORKSPACE</div><nav class="nav"><button class="active">▣　ライブラリ</button><button>◷　最近のノート</button><button>☆　お気に入り</button></nav></div><div><div class="books-label">READING NOW</div><div class="book active">哲学の道しるべ<small>3 annotations</small></div><div class="book">なぜ働いていると本が読めなくなるのか<small>7 annotations</small></div></div><div class="profile">●　Haruka's library</div></aside>
+<main class="main"><header class="top"><div class="crumb">ライブラリ　/　<strong>哲学の道しるべ</strong></div><div class="actions"><button class="export" id="export">Markdownで書き出す</button><div class="avatar">H</div></div></header>
+<div class="content"><div class="hero"><div><div class="kicker">CHAPTER 03</div><h1>「わかる」ことの、その先へ</h1></div><div class="progress">読書の進捗<div class="bar"><i></i></div></div></div>
+<div class="reader"><article class="article"><div class="meta">P. 42–43　·　読書中</div><h2>問いを持つことは、世界をもう一度見ること</h2><p>私たちは、答えを求めるあまり、問いそのものを急いで通り過ぎてしまう。けれど、よい問いはすぐに答えられるものではない。日々の経験のなかで、何度も形を変えながら育っていく。</p><p>哲学するとは、特別な場所へ行くことではない。<span class="highlight" id="target">自分にとって当たり前だった景色に、小さな違和感を見つけること</span>から始まる。その違和感を大切に抱え続けるとき、思考は少しずつ深くなる。</p><div class="quote">「答えよりも、よい問いを持ち帰ろう。」</div><p>すぐに結論を出さない時間には、余白がある。その余白でこそ、他者の言葉や自分の記憶が静かに結びつき、新しい見方が生まれるのだ。</p></article>
+<aside class="margin"><div class="margin-head"><h3>余白のメモ <span id="num">0</span></h3><button class="add" id="add">＋</button></div><div class="notes" id="notes"></div></aside></div></div></main></div>
+<div class="modal" id="modal"><div class="dialog"><h3>余白にメモを残す</h3><textarea id="noteText" placeholder="この文章から何を感じましたか？"></textarea><footer><button class="cancel" id="cancel">キャンセル</button><button class="save" id="save">メモを追加</button></footer></div></div>
+<script>
+const key='marginnote-v2';let notes=JSON.parse(localStorage.getItem(key)||'[]');const notesEl=document.querySelector('#notes'),num=document.querySelector('#num'),modal=document.querySelector('#modal'),input=document.querySelector('#noteText');
+function render(){num.textContent=notes.length;notesEl.innerHTML=notes.length?notes.map((n,i)=>'<div class="note"><button class="delete" data-i="'+i+'">×</button><div class="tag">P. 42 · JUST NOW</div><p>'+n.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))+'</p></div>').join(''):'<div class="empty">気になった言葉を<br>余白に残しましょう。</div>';document.querySelectorAll('.delete').forEach(b=>b.onclick=()=>{notes.splice(b.dataset.i,1);localStorage.setItem(key,JSON.stringify(notes));render()})}render();
+function open(){modal.classList.add('show');input.focus()}document.querySelector('#add').onclick=open;document.querySelector('#newNote').onclick=open;document.querySelector('#target').onclick=open;document.querySelector('#cancel').onclick=()=>modal.classList.remove('show');document.querySelector('#save').onclick=()=>{if(!input.value.trim())return;notes.unshift(input.value.trim());localStorage.setItem(key,JSON.stringify(notes));input.value='';modal.classList.remove('show');render()};
+document.querySelector('#export').onclick=()=>{const body='# MarginNote\n\n## 「わかる」ことの、その先へ\n\n'+notes.map(n=>'- '+n).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([body],{type:'text/markdown'}));a.download='marginnote.md';a.click()};
+</script></body></html>
